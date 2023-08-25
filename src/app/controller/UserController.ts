@@ -10,13 +10,6 @@ export default {
       password,
     };
 
-    await Mail.sendMail({
-      from: "kleyson queue <castro@castro.com>",
-      to: "teste@test.com",
-      subject: "teste de fila",
-      html: "esse é o corpo de email",
-    });
-
     return res.json(user);
   },
 };

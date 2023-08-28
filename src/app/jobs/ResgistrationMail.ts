@@ -4,7 +4,6 @@ export default {
   key: "RegistrationMail",
   async handle({ data }: any) {
     const { user } = data;
-    console.log(user);
     await Mail.sendMail({
       from: `${user.name} queue <castro@castro.com>`,
       to: `${user.email}`,

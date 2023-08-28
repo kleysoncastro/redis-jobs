@@ -11,7 +11,7 @@ export default {
       password,
     };
 
-    Queue.add({ user });
+    await Queue.add({ user });
     return res.json(user);
   },
 };

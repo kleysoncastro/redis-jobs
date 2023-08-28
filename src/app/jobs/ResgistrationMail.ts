@@ -2,11 +2,11 @@ import Mail from "../lib/mail";
 
 export default {
   key: "RegistrationMail",
-  async handle({ data }) {
+  async handle({ data }: any) {
     const { user } = data;
-
+    console.log(user);
     await Mail.sendMail({
-      from: `kleyson queue <${user.name}@castro.com>`,
+      from: `${user.name} queue <castro@castro.com>`,
       to: `${user.email}`,
       subject: "teste de fila",
       html: "esse é o corpo de email",

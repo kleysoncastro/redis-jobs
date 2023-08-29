@@ -41,7 +41,6 @@ class RedisManager {
           } else {
             if (result === 1) {
               console.log(`Chave "${key}" excluída com sucesso.`);
-              this.close();
               resolve(0);
             } else {
               console.log(`Chave "${key}" não encontrada.`);
@@ -55,6 +54,20 @@ class RedisManager {
     } catch (error) {
       console.error("Erro ao executar delKey:", error);
       return -1; // Ou qualquer valor que indique erro
+    }
+  }
+
+  async openConnection() {
+    if (this.client && !this.client.connected) {
+      console.log("Abrindo conexão Redis...");
+      await new Promise((resolve) => {
+        this.client.once("ready", () => {
+          console.log("Conexão Redis aberta.");
+          // resolve();
+        });
+      });
+    } else {
+      console.log("Conexão Redis já está aberta.");
     }
   }
 

@@ -5,8 +5,9 @@
   "license": "MIT",
   "scripts": {
     "dev:server": "ts-node-dev --inspect --respawn --transpile-only --ignore-watch node_modules src/server.ts",
-    "dev:fila": "ts-node-dev src/QueueExe.ts",
-    "dev:tconect": "ts-node-dev src/redis-test-conect.ts"
+    "dev:fila": "ts-node-dev --inspect --respawn --transpile-only --ignore-watch node_modules src/QueueExe.ts",
+    "dev:tconect": "ts-node-dev src/redis-test-conect.ts",
+    "dev:t": "ts-node-dev src/set-data-redis.ts"
   },
   "dependencies": {
     "@types/bull": "^4.10.0",

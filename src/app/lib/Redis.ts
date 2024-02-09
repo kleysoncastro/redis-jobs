@@ -1,11 +1,12 @@
+import 'dotenv/config'
+
 import Redis from "redis";
 
 class RedisManager {
   client;
   constructor() {
     this.client = Redis.createClient({
-      host: "localhost",
-      port: 6379,
+      url: process.env.REDIS_URL
     });
 
     this.client.on("error", (err) => {

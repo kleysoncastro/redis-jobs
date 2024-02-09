@@ -6,18 +6,22 @@ export default {
   async handle({ data }: any) {
     const { user } = data;
     for (let i = 0; i < 3; i++) {
-      await new Promise((resolve) => setTimeout(resolve, i * 5000));
+      await new Promise((resolve) => setTimeout(resolve, i + 1 * 5000));
 
       const flag = await new Promise((resolve, reject) => {
-        clientRedis.client.get("4455", (err, reply) => {
+        clientRedis.client.get(user.name, (err, reply) => {
           if (err) {
             console.error("Erro ao recuperar do Redis:", err);
             reject(err);
           } else {
             const retrievedJson = JSON.parse(reply);
-            console.log("JSON recuperado do Redis:", retrievedJson.flag);
-            resolve(retrievedJson.flag);
+            if (retrievedJson) {
+
+              console.log("-------------redis-------", retrievedJson);
+              resolve(retrievedJson.flag);
+            }
           }
+
         });
       });
 
@@ -29,7 +33,7 @@ export default {
           html: "esse é o corpo de email",
         });
         console.log("Email enviado (Bridge on-line)");
-        await clientRedis.delKey("4455");
+        await clientRedis.delKey(user.name);
         break; // Para a tentativa se o email for enviado
       }
 
@@ -40,10 +44,13 @@ export default {
           subject: "Bridge off-line",
           html: "esse é o corpo de email",
         });
-        await clientRedis.delKey("4455");
+        await clientRedis.delKey(user.name);
 
         console.log("Email enviado (Bridge off-line)");
       }
+
+      console.log("[hanlde] ----- retentativa ");
+
     }
   },
 };

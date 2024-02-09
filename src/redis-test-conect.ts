@@ -1,13 +1,10 @@
+import 'dotenv/config'
 import redis, { RedisClient } from "redis";
 
-// Configurações do Redis
-const redisOptions = {
-  host: "127.0.0.1",
-  port: 6379,
-};
-
 // Cria um cliente Redis
-const client: RedisClient = redis.createClient(redisOptions);
+const client: RedisClient = redis.createClient({
+  url: process.env.REDIS_URL
+});
 
 // Lidar com erros de conexão
 client.on("error", (error) => {
@@ -25,3 +22,4 @@ client.ping((error, result) => {
   // Fecha o cliente após o teste
   client.quit();
 });
+

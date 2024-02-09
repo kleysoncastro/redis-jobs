@@ -1,18 +1,43 @@
 import clientRedis from "./app/lib/Redis";
 
-const data = {
-  mac: "3d:44:5a:12:c8",
-  comando: "/set",
-  flag: true,
-};
 
-clientRedis.client.set("4455", JSON.stringify(data), (err, reply) => {
+interface IUser {
+  name: string
+  email: string;
+  password: string
+  comando: string;
+  flag: boolean;
+
+}
+
+
+// chave klyson é campo name passado na requisao do express na rota 
+
+clientRedis.client.get("kleyson", (err, reply) => {
+
   if (err) {
-    console.error("Erro ao salvar no Redis:", err);
+    console.error("Erro ao recuperar do Redis:", err);
   } else {
-    console.log("JSON salvo no Redis:", reply);
+    const retrievedJson: IUser = JSON.parse(reply);
+    if (retrievedJson) {
+
+      clientRedis.client.set("kleyson", JSON.stringify({ flag: true }), (err, reply) => {
+        if (err) {
+          console.error("Erro ao salvar no Redis:", err);
+        } else {
+          console.log("JSON salvo no Redis:", reply);
+        }
+
+        // Feche a conexão com o Redis
+        clientRedis.client.quit();
+      });
+
+
+    }
+
   }
 
-  // Feche a conexão com o Redis
-  //client.quit();
 });
+
+
+
